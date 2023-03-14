@@ -1,0 +1,48 @@
+Estos son los puntos que están pendiente del proyecto de Mapeo de Talento
+
+* Cambiar nombre al módulo de PERFIL por EXPEDIENTE (OK)
+
+* Dentro del módulo de Expediente donde aparece el puesto y nombre del colaborador, poner vinculo que te lleve a sus competencias (OK)
+
+* Opción para que los colaboradores puedan crear su contraseña (Ok)
+
+* Sesiones no caducan (OK.- se coloca una caducidad de aprox 15 años).
+
+* Crear módulo de ROLES Y PERMISOS, solo dos tipos de roles (Administrador / Colaborador)
+
+* Crear módulo de Evaluación (VISTA COLABORADOR)
+                • Sección para responder las evaluaciones de los colaboradores a cargo
+                • Sección para ver las evaluaciones de los colaboradores a cargo
+
+* Crear módulo de Evaluación (VISTA ADMINISTRADOR)
+                • Sección para ver las evaluaciones de los colaboradores
+                • Sección para editar información de colaborador
+                               * Editar X, Y plano cartesiano
+                               * Editar CAJA
+                               * Editar UDN y Puesto
+
+* Sección de conclusiones (las conclusiones se contestan al final de la evaluación)
+
+* Crear módulo de plan de desarrollo Individual
+                * Crear
+                * Editar
+                * Consultar
+                * Eliminar
+                * Seccionarlo por año
+* Cuando se esté contestando el Plan de Desarrollo Individual 
+* Se agregue una columna para identificar que las competencias están (Iniciada, En proceso, Completada) (las competencias tendrán un estatus por default de Iniciada)
+                * Las siguientes competencias van a ir agregadas por default en el plan de desarrollo individual. La de color amarillo solo se agregara para coordinadores
+Desarrollo de Talento y de Equipos	Brindar claridad de funciones, prioridades y KPI's
+	Evaluar su desempeño y potencial 
+	Co-crear su PDI y asegurar su implementación
+	Brindarle retroalimentación 
+	Darle reconocimiento (en público) 
+	Cuidar "formas" de solicitar tareas y corregir errores
+•	Ver la manera de colocar un control que diga “Estoy de acuerdo” y simule una firma (con el nombre completo) cuando este sea descargado en PDF
+
+
+
+*En el módulo para crear el Perfil y Competencias
+                * Se agregue un control para evaluar el perfil y competencia del colaborador (Bien, Regular, No aplica)
+
+Saludos.

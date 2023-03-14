@@ -1,0 +1,24 @@
+
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" style="margin: 0; padding: 0; height: 100%; overflow: hidden;">
+<head>
+    <title>Test Layout</title>
+    <link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+    <script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.js"></script>
+</head>
+<script>
+    jQuery(document).ready(function () {
+        jQuery("#combobox").change(function () {
+            jQuery("#content").attr('src', jQuery("#combobox").val());
+        });
+    });
+</script>
+
+<body >
+	<!-- DemoLargeHierarchy -->
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; top: 30px; height: expression(document.body.clientHeight-30);">
+        <iframe id="content" width="100%" height="100%" src="organigrama.php" />
+    </div>
+</body>
+</html>

@@ -1,0 +1,239 @@
+// Import Bulma's core
+@import url("https://use.fontawesome.com/releases/v5.2.0/css/all.css");
+@import url("//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+@import "~bulma/sass/utilities/_all";
+
+// Variables
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: 'Roboto', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+
+
+// Set your colors
+// $primary: #8c67ef;
+$primary: $blue;
+$primary-light: findLightColor($primary);
+$primary-dark: findDarkColor($primary);
+$primary-invert: findColorInvert($primary);
+
+// Lists and maps
+$custom-colors: null !default;
+$custom-shades: null !default;
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: mergeColorMaps(
+    (
+        "white": (
+            $white,
+            $black,
+        ),
+        "black": (
+            $black,
+            $white,
+        ),
+        "light": (
+            $light,
+            $light-invert,
+        ),
+        "dark": (
+            $dark,
+            $dark-invert,
+        ),
+        "primary": (
+            $primary,
+            $primary-invert,
+            $primary-light,
+            $primary-dark,
+        ),
+        "link": (
+            $link,
+            $link-invert,
+            $link-light,
+            $link-dark,
+        ),
+        "info": (
+            $info,
+            $info-invert,
+            $info-light,
+            $info-dark,
+        ),
+        "success": (
+            $success,
+            $success-invert,
+            $success-light,
+            $success-dark,
+        ),
+        "warning": (
+            $warning,
+            $warning-invert,
+            $warning-light,
+            $warning-dark,
+        ),
+        "danger": (
+            $danger,
+            $danger-invert,
+            $danger-light,
+            $danger-dark,
+        ),
+    ),
+    $custom-colors
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+
+.form-auth {
+    max-width: 500px;
+    margin:20px auto;
+}
+
+table.table-evaluation {
+    thead {
+        background-color: #002060;
+        tr {
+            th, td {
+                color: #ffffff;
+                text-align: center !important;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                vertical-align: middle;
+                text-align: center !important;
+
+                .control {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+        }
+    }
+}
+
+
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+@import "~bulma-dashboard/src/bulma-dashboard.sass";
+
+// has-background-grey-lighter
+.has-background-blue { 
+    background-color: #002060;
+    * {
+        color: white;
+    }
+}
+
+.sidebar-background { 
+    background-color: #dbdbdb;
+    .menu-label { 
+        color: #0a0a0a;
+        border-bottom: 1px solid #b5b5b5;
+    }
+    .footer-sidebar{
+        position: fixed;
+        width: 15rem;
+        padding: 2rem 1.5rem;
+        left: 0;    
+        bottom: 0;        
+    }
+}
+
+html { 
+    overflow-y: hidden !important; 
+}
+
+nav {
+    &.is-fixed-top {
+        padding: 0px 20px;
+    }
+    &.navbar {
+        background-color: #002060;        
+    }
+    .search-bar {
+        margin: 5px;
+    }
+}
+
+
+
+.has-text-{
+    &pending{
+        color: #f6993f;
+    }
+    &complete{
+        color:#38c172;
+    }
+}
+
+.b-tooltip:after {
+    white-space: pre-wrap !important;
+}
+
+.introduccion {
+    background-color: #f5f5f5;
+    padding: 35px;
+}
+
+
+.introduccion-text{
+    font-size: 18px !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+@media screen and  (max-width: 1400px) {    
+    .introduccion-text{
+        font-size: 16px !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+    }   
+}
+
+
+
+@media screen and (min-width: 1024px) {
+    .section {
+        padding: 2rem 1.5rem;
+    }        
+}
+
+
+.fa-trash {
+    color: $danger;
+}
+
+.fa-edit {
+    color: $warning;
+}
+
+
+
+
+.fieldset { 
+    border: 1px solid;
+    border-color: rgba($color: #808080, $alpha: 0.7);
+    padding: 10px 25px;
+}
