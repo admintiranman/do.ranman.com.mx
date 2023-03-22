@@ -18,7 +18,7 @@
         <span v-else>
             Objetivos iniciales no subidos
         </span>
-        <a v-if="(  props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true }}) && !!!props.row.start_lock" :href="`/objetivo/${props.row.id}/edit/inicio`">
+        <a v-if="(  props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true ? "true" : "false" }}) && !!!props.row.start_lock" :href="`/objetivo/${props.row.id}/edit/inicio`">
             <span class="icon">
                 <i class="fa fa-edit"></i>
             </span>
@@ -31,7 +31,7 @@
         <span v-else>
             Objetivos finales no subidos
         </span>
-        <a v-if="( props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true }} ) && !!!props.row.end_lock" :href="`/objetivo/${props.row.id}/edit/final`">
+        <a v-if="( props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true ? "true" : "false"}} ) && !!!props.row.end_lock" :href="`/objetivo/${props.row.id}/edit/final`">
             <span class="icon">
                 <i class="fa fa-edit"></i>                
             </span>
