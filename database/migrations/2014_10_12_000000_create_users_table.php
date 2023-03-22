@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable();
             $table->string('username_ad')->nullable();            
             $table->boolean('active')->default(true);
-            
+            $table->string("password");
 
             // profile
             $table->integer('num_nomina')->nullable();

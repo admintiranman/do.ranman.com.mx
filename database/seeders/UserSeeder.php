@@ -293,7 +293,8 @@ class UserSeeder extends Seeder
                 'udn_id' => $udn->id,                
                 'report_id' => $d['report_id'],          
                 'puesto_critico' => $d['PC'] == 'X',
-                'talento_clave' => $d['TC'] == 'X'                  
+                'talento_clave' => $d['TC'] == 'X',   
+                'password' => bcrypt('Password.2023#'),          
             ]);
 
 
