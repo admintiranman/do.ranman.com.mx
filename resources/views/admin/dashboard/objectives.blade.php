@@ -18,7 +18,7 @@
                 </template>
             </b-table-column>
             <b-table-column v-slot="props" searchable sortable label="Puesto" field="profile.job.name">
-                @{{props.row.profile.job.name}}
+                @{{props.row.job}}
                 <template #searchable="props">
                     <b-input
                     v-model="props.filters[props.column.field]"
@@ -28,7 +28,7 @@
                 </template>
             </b-table-column>
             <b-table-column v-slot="props" searchable sortable label="UDN" field="profile.udn.name">
-                @{{props.row.profile.udn.name}}
+                @{{props.row.udn}}
                 <template #searchable="props">
                     <b-input
                     v-model="props.filters[props.column.field]"

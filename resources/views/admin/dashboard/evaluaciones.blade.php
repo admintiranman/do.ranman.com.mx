@@ -19,7 +19,7 @@
             </b-table-column>
 
             <b-table-column v-slot="props" searchable sortable label="Puesto" field="job_name">
-                @{{props.row.job_name}}
+                @{{props.row.job}}
                 <template #searchable="props">
                     <b-input
                     v-model="props.filters[props.column.field]"

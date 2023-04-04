@@ -49,8 +49,7 @@ class DashboardController extends Controller
         $objectives = $control->objectives()->where(function ($query) { 
             $query->whereNotNull('start_path')
             ->orWhereNotNull('end_path');
-        })
-        ->with('profile.job', 'profile.udn')
+        })        
         ->orderBy("employee_name", "asc")
         ->get();        
         return view('admin.dashboard.objectives', compact('objectives', 'control'));
@@ -68,8 +67,7 @@ class DashboardController extends Controller
 
         $retro = $control->retroalimentaciones()
             ->where('respuesta1', '<>', '')
-            ->Where('respuesta2', '<>', '')
-            ->with('profile.udn')
+            ->Where('respuesta2', '<>', '')            
             ->orderBy('employee_name', 'asc')
             ->get();
         return view('admin.dashboard.retro', compact('retro', 'control'));

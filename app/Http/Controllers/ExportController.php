@@ -16,9 +16,8 @@ use App\Exportable\PDI\PdiExportResult;
 use App\Models\Evaluation;
 use App\Models\Retroalimentacion;
 use App\Models\Objective;
-use App\Models\Profile;
 use App\Models\PlanDesarrolloIndividual;
-use Exception;
+
 // Zip
 use ZipArchive;
 // Storage
@@ -115,7 +114,6 @@ class ExportController extends Controller
 
             $data = Objective::whereNotNull('start_path')
                 ->orWhereNotNull('end_path')
-                ->with('profile.job', 'profile.udn')
                 ->orderBy('employee_name', 'asc')
                 ->get();
             foreach ($data as $d) {
@@ -168,9 +166,9 @@ class ExportController extends Controller
     // }
 
 
-    public function organigrama()
-    {
-        $data = Profile::with('level', 'user', 'job', 'udn')->get()->all();
-        return Excel::download(new OrganigramaReport($data), "organigrama.xlsx");
-    }
+    // public function organigrama()
+    // {
+    //     $data = Profile::with('level', 'user', 'job', 'udn')->get()->all();
+    //     return Excel::download(new OrganigramaReport($data), "organigrama.xlsx");
+    // }
 }

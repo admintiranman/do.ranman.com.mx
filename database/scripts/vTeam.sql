@@ -26,7 +26,7 @@ select
 	case when ep.status = 'close' then 100 else 0 end as ep_avance, 
 	pdi.id as id_pdi, 
 	pdi.avance as pdi_avance, 
-	j.talento_clave, j.puesto_critico
+	talento_clave, puesto_critico
 from users as u
 inner join jobs as j on j.id = u.job_id
 inner join levels as l on l.id = u.level_id

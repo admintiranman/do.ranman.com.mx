@@ -18,8 +18,7 @@ class User extends Authenticatable
         'level_id', 
         'udn_id', 
         'report_id', 
-        'report_to', 
-        'department_id', 
+        'report_to',          
         'puesto_critico',
         'talento_clave', 
         'departamento_id'
@@ -151,7 +150,7 @@ class User extends Authenticatable
     }
 
     public function departamento() {
-        return $this->belongsTo(Departamento::class);   
+        return $this->belongsTo(Departamento::class, "departemento_id", "id");   
     }
 
     // determina si un usuaripo tiene jerarquia directamente sobre otro usuario

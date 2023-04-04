@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
+use App\Imports\UsersImport;
 use App\Models\Departamento;
 use App\Models\Job;
 use App\Models\Level;
@@ -9,9 +11,11 @@ use App\Models\Udn;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Log;
+
 
 class UserController extends Controller
 {
@@ -23,7 +27,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if($request->user()->hasRole('Administrador')) {
-            $users = User::orderBy('report_id', 'asc');
+            $users = User::orderBy('id', 'asc');
             $search = $request->search??'';
             if($search){
                 $search = str_replace(' ', '%' , " $search ");
@@ -98,9 +102,7 @@ class UserController extends Controller
         }
         catch(Exception $ex) {
             return redirect()->route('user.index')->with('error', 'Ocurrio un error al agregar usuario');
-        }
-        dd();
-        //
+        }        
     }
 
     /**
@@ -125,6 +127,27 @@ class UserController extends Controller
         abort(403);
     }
 
+
+
+
+
+    public function edit(Request $request, User $user) { 
+        if($request->user()->hasRole('Administrador')) {                        
+            $participantes = User::where('active', true)
+                            ->select('id', DB::raw("concat( [report_id] ,' | ',[name]) as name"))
+                            ->get()
+                            ->all();
+            $jobs = Job::select('name')->get()->all();
+            $levels = Level::select('name')->get()->all();
+            $udns = Udn::select('name')->get()->all();
+            $departamentos = Departamento::select('name')->get()->all();
+            return view('users.edit', compact( 'user', 'udns', 'levels', 'participantes', 'jobs', 'departamentos'));
+        }
+        abort(403);
+    }
+
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -134,7 +157,42 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $data = $request->all();
+        try {
+
+            $udn = Udn::firstOrCreate(['name' => $data["udn"]]);
+            $level = Level::firstOrCreate(['name' => $data["level"]]);
+            $job = Job::firstOrCreate(['name' => $data["job"]]);
+            $departament = Departamento::firstOrCreate(["name" => $data["departamento"]]);
+
+            $report_to = null;
+            if($data["jefe_directo"]) {                
+                $boss_data = explode(" | ", $data["jefe_directo"]);
+                $boss = User::where("report_id", $boss_data[0])->where("name", $boss_data[1])->first();
+                $report_to = $boss->report_id;
+            }
+            
+
+            $user_data = [
+                "name" => $data["name"], 
+                "email" => $data["email"], 
+                "num_nomina" => $data["num_nomina"], 
+                "job_id" => $job->id, 
+                "level_id" => $level->id, 
+                "udn_id" => $udn->id, 
+                "report_to" => $report_to, 
+                "departamento_id" => $departament->id,                
+                "talento_clave" => isset($request->talento_clave), 
+                "puesto_critico" => isset($request->puesto_critico), 
+            ];
+            $user->update($user_data);            
+            return redirect()->route('user.index')->with('success', 'Usuario agregado correctamente');
+
+        }
+        catch(Exception $ex) {
+            dd($ex);
+            return redirect()->route('user.edit', $user)->with('error', 'Ocurrio un error al agregar usuario');
+        }        
     }
 
     /**
@@ -144,7 +202,45 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
-    {
-        //
+    {        
+        $user->report_id = 0;
+        $user->report_to = -1;
+        $user->save();        
+        return redirect()->route('user.index')->with("success", "Usuario eliminado del organigrama");        
     }
+
+
+
+    // import / export functions
+
+
+    public function export() {
+        return Excel::download(new UserExport, "colaboradores.xlsx");
+    }
+
+
+
+    public function import(Request $request) {
+        
+        $importer = new UsersImport();
+        DB::beginTransaction();
+        try {
+            Excel::import($importer, $request->file("colaboradores"));      
+            DB::commit();
+            return redirect()->route('user.index')->with('success', "Actualizacion de plantilla correctamente");
+    
+        }
+        catch(Exception $ex) { 
+            DB::rollBack();
+            Log::error($ex);
+            return redirect()->route('user.index')->with("error", "Ocurrio un error al importar la información");
+        }
+    }
+
+
+
+
+
+
+
 }

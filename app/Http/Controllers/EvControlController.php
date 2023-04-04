@@ -281,14 +281,6 @@ class EvControlController extends Controller
                 'user_id' => $user->id,                        
                 'body' => json_encode([])
             ]);                    
-        }
-        
+        }   
     }
-
-
-
-
-
-
-
 }

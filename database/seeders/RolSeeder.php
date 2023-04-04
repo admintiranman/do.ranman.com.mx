@@ -24,6 +24,7 @@ class RolSeeder extends Seeder
 
     protected function roles() {
         Role::create(['name' => 'Administrador']);
+        Role::create(['name' => '9box']);
         Role::create(['name' => 'Director']);
     }
 
@@ -33,16 +34,18 @@ class RolSeeder extends Seeder
         $user = User::where('email', 'angelzarate@valoran.com.mx')->first();
         if($user) {
             $user->assignRole('Administrador');
+            $user->assignRole('9box');
         }
 
-        $user = User::where('email', 'sofiasaucedo@valoran.com.mx')->first();
+        $user = User::where('email', 'mayraquistian@valoran.com.mx')->first();
         if ($user) {
             $user->assignRole('Administrador');
+            $user->assignRole('9box');
         }
 
-        $user = User::where('email', 'oscarortiz@valoran.com.mx')->first();
-        if ($user) {
-            $user->assignRole('Director');
-        }
+        // $user = User::where('email', 'oscarortiz@valoran.com.mx')->first();
+        // if ($user) {
+        //     $user->assignRole('Director');
+        // }
     }
 }

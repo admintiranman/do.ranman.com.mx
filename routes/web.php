@@ -81,9 +81,8 @@ Route::group([
     // UserController 
 
     Route::resource('user', UserController::class);
-    
-    
-    
+    Route::get('export/users', [UserController::class, 'export'])->name('user.export');
+    Route::post('import/users', [UserController::class, 'import'])->name('user.import');
     
     
     // Route::resource('profile', ProfileController::class)->only(['show']);

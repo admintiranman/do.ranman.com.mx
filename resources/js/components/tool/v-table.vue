@@ -1,15 +1,15 @@
 <template>
   <section>
 
-      <b-field horizontal label="Numero de registros por pagina" v-if="v_data.length >= 10">    
-        <b-select v-model="sizePage">
+      <b-field horizontal label="Numero de registros por pagina">    
+        <b-select v-model="sizePage" v-show="v_data.length >= 10">
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="20">20</option>
             <option value="25">25</option>
             <option :value="v_data.length">Todos</option>
         </b-select>
-        <a v-if="can_export" target="_blank" :href="url_export" class="button is-success">
+        <a v-show="can_export" target="_blank" :href="url_export" class="button is-success">
           <span class="icon">
             <i class="fa fa-file-excel"></i>
           </span>

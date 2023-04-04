@@ -7,13 +7,14 @@
         @select="(option) => {$emit('select', option)}"        
         :placeholder="placeholder"    
         :name="name"
+
     >
     </b-autocomplete>
 </template>
 
 <script>
     export default {
-        props: ['options', 'placeholder', 'clear', "inputname"],
+        props: ['options', 'placeholder', 'clear', "inputname", "value"],
         computed: {
             filter() {
                 let txt = this.search.toLowerCase();            
@@ -35,7 +36,7 @@
 
 
             return  {
-                search: "",
+                search: this.value || "",
                 name: this.inputname||"username",
                 clearInput: this.clear != undefined ? this.clear : true,
             }
