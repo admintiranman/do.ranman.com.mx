@@ -74,10 +74,7 @@
             </b-field>
         </form>
         <hr>
-        <v-table :v_data="{{$users}}">
-            <b-table-column v-slot="props" label="Report ID">
-                @{{props.row.report_id}}
-            </b-table-column>
+        <v-table :v_data="{{$users}}">            
 
             <b-table-column v-slot="props" label="# nomina">
                 @{{props.row.num_nomina}}
@@ -107,13 +104,16 @@
 
 
             <b-table-column v-slot="props" label="status">
-                <form :action="`/user/${props.row.id}`" method="POST">
+                <form :action="`/user/${props.row.id}`" method="POST" v-if="props.row.report_id != 0">
                     @csrf
                     @method('delete')
                     <button class="button is-danger is-small" type="submit">
                         Eliminar
                     </button>
                 </form>
+                <span v-else>
+                    Baja    
+                </span>
             </b-table-column>
 
 
