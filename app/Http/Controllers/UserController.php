@@ -163,7 +163,7 @@ class UserController extends Controller
             $udn = Udn::firstOrCreate(['name' => $data["udn"]]);
             $level = Level::firstOrCreate(['name' => $data["level"]]);
             $job = Job::firstOrCreate(['name' => $data["job"]]);
-            $departament = Departamento::firstOrCreate(["name" => $data["departamento"]]);
+            $departament = Departamento::firstOrCreate(["name" => $data["departamento"]??' ']);
 
             $report_to = null;
             if($data["jefe_directo"]) {                
@@ -223,17 +223,16 @@ class UserController extends Controller
     public function import(Request $request) {
         
         $importer = new UsersImport();
-        DB::beginTransaction();
-        try {
+        
+        try {            
             Excel::import($importer, $request->file("colaboradores"));      
-            DB::commit();
             return redirect()->route('user.index')->with('success', "Actualizacion de plantilla correctamente");
     
         }
-        catch(Exception $ex) { 
-            DB::rollBack();
+        catch(Exception $ex) {             
             Log::error($ex);
             return redirect()->route('user.index')->with("error", "Ocurrio un error al importar la información");
+            throw $ex;
         }
     }
 
