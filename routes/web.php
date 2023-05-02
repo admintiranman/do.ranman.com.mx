@@ -23,18 +23,18 @@ use App\Http\Controllers\LDAPController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
-// Route::group([
+Route::group([
 
-//     'middleware'  => 'guest'
+    'middleware'  => 'guest'
 
-// ], function () {
-//     Route::get('/login', function() {
-//         return view('auth.login');
-//     });
-//     // Route::post('/login', [\Auth::class, 'login'])->name('login');
-// });
+], function () {
+    Route::get('/login', function() {
+        return view('auth.login');
+    });
+    Route::post('/login', [LDAPController::class, 'login'])->name('login');
+});
 
-Auth::routes();
+// Auth::routes();
 
 
 Route::group([

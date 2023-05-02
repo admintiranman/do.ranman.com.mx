@@ -47,9 +47,9 @@ class TeamController extends Controller
         }
 
         $options_control = $control ? EvControl::where("id", "<>", $control->id)->get() : [];
-
+        
         return view('admin.organization.index', [
-            'route' => route('organigrama.chart'), 
+            'route' => route('organigrama.chart')  . "?control=" . $control->id, 
             'control' => $control, 
             'options_control' => $options_control,
         ]);

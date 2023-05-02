@@ -46,12 +46,12 @@
                 </li>
 
                 <li>
-                    <a href="{{route('admin.organigrama', 'VEXA')}}">VEXA</a>
+                    <a href="{{route('admin.organigrama', 'VEXA-XCALAK')}}">VEXA-XCALAK</a>
                 </li>            
-                
+<!--                 
                 <li>
                     <a href="{{route('admin.organigrama', 'XCALAK')}}">XCALAK</a>
-                </li>
+                </li> -->
                 
             </b-menu-list>
             

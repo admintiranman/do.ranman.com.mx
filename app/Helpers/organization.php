@@ -13,7 +13,7 @@ class Organization
     protected $control_id;
 
     public function __construct($user_id = 1, $control_id)
-    {
+    {        
         $this->data = [];
         $this->root = User::find($user_id);
         $this->control_id = $control_id;

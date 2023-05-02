@@ -36,12 +36,12 @@ class AdminController extends Controller
                 case 'FN':
                     $user_id = User::where('name', 'like' , 'Alberto%Rangel%')->orderBy("id", "asc")->first()->id;
                     break;
-                case 'VEXA':
+                case 'VEXA-XCALAK':
                     $user_id = User::where('name', 'like' , '%Cecilia%Rangel%')->orderBy("id", "asc")->first()->id;                    
                     break;
-                case 'XCALAK':
-                    $user_id = User::where('name', 'like' , 'Vicente%Rangel%')->latest()->first()->id; // Rodolfo oropeza
-                    break;
+                // case 'XCALAK':
+                //     $user_id = User::where('name', 'like' , 'Vicente%Rangel%')->latest()->first()->id; // Rodolfo oropeza
+                //     break;
             }
             $instance = new HelpersOrganization($user_id);
             $organigrama = $instance->chart_data();
