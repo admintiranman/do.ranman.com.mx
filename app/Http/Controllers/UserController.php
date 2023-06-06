@@ -121,7 +121,7 @@ class UserController extends Controller
             Cookie::queue('tab_profile', $tab, 360000);
         }
 
-        if($user->id == $userAuth->id || $userAuth->hierarchy($user)) {
+        if($user->id == $userAuth->id || $userAuth->hierarchy($user) || $userAuth->hasRole('Administrador')) {
             return view('users.show', compact('user', 'tab'));
         }
         abort(403);

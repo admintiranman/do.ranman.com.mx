@@ -14,7 +14,7 @@ class SearchController extends Controller
 
         $response = [];
         $text = $request->search;
-        $users = User::join('profiles as p', 'users.id', 'p.user_id')->where('users.name', 'like', "%$text%")->selectRaw("users.name, concat('/profile/', p.id) as url")->orderBy('users.name', 'asc')->get()->all();        
+        $users = User::where('users.name', 'like', "%$text%")->selectRaw("users.name, concat('/user/', users.id) as url")->orderBy('users.name', 'asc')->get()->all();        
         $puestos = Job::where('name', 'like', "%$text%")->selectRaw("jobs.name, concat('/admin/jobs/', id, '/edit') as url")->orderBy('name', 'asc')->get()->all();
         $encuestas = Survey::where('name', 'like', "%$text%")->selectRaw("name, concat('/survey/', slug) as url")->orderBy('name', 'asc')->get()->all();
 
