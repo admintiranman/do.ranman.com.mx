@@ -120,7 +120,7 @@ class SurveyController extends Controller
             'level_id' => 'required',
             'description' => 'nullable'
         ]);
-        $clone = $survey->clone($request->name, $request->description , $request->level_id);        
+        $clone = $survey->clone($request->name, $request->description , $request->level_id??$survey->level_id);        
         return redirect()->route('survey.edit', $clone)->with('success', 'Encuesta creada correctamente');
     }
 }
