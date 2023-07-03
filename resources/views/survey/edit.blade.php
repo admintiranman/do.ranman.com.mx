@@ -59,14 +59,23 @@
                             <td rowspan="{{$subsummary->questions()->count()+1}}">
                                 {!!$subsummary->text!!}
                                 <br>
-                                <a href="{{route('subsummary.question.create', [$subsummary])}}">
-                                    Agregar pregunta
-                                </a>
+                                <button type="submit" style="background: transparent; border: none; ">
+                                    
+                                    
+                                    <a href="{{route('subsummary.question.create', [$subsummary])}}">
+                                        <span>Agregar pregunta</span>
+                                        <b-icon icon="plus" size="is-small"></b-icon>
+                                    </a>
+
+                                </button>
                                 <form method="POST" action="{{route('survey.summary.subsummary.destroy', [$survey, $summary, $subsummary])}}">
                                     @method('delete')
                                     @csrf
-                                    <button class="button is-small is-danger" type="submit">
-                                        Eliminar
+                                    <button type="submit" style="background: transparent; border: none; ">
+                                        <a href="" onclick="">
+                                            <span>Eliminar</span>
+                                            <b-icon icon="delete" size="is-small"></b-icon>
+                                        </a>                
                                     </button>
                                 </form>
                             </td>
