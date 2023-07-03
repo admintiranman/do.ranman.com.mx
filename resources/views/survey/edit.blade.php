@@ -62,6 +62,13 @@
                                 <a href="{{route('subsummary.question.create', [$subsummary])}}">
                                     Agregar pregunta
                                 </a>
+                                <form method="POST" action="{{route('survey.summary.subsummary.destroy', [$survey, $summary, $subsummary])}}">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="button is-small is-danger" type="submit">
+                                        Eliminar
+                                    </button>
+                                </form>
                             </td>
 
                             @forelse($subsummary->questions()->get() as $question)

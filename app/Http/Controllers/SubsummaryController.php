@@ -86,8 +86,10 @@ class SubsummaryController extends Controller
      * @param  \App\Models\Subsummary  $subsummary
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subsummary $subsummary)
+    public function destroy(Survey $survey, Summary $summary, Subsummary $subsummary)
     {
-        //
+        $subsummary->delete();
+        return redirect()->route('survey.edit', [$survey])->with('success', 'Subtema eliminado correctamente');
+
     }
 }
