@@ -251,7 +251,9 @@ class EvControlController extends Controller
 
             
             $survey = Survey::with('summaries.options', 'summaries.subsummaries.questions')
-                        ->where("level_id", $user->level->id)->where("enabled", true)                        
+                        ->where("level_id", $user->level->id)
+                        ->where("enabled", true)           
+                        ->orderBy('id', 'desc')             
                         ->first();
             $survey_json = json_encode($survey->summaries);
             $current_section = $survey->summaries[0]->text;

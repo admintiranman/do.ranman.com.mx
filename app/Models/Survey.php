@@ -37,11 +37,12 @@ class Survey extends Model
 
     }
 
-    public function clone($name = null, $description = null) {
+    public function clone($name = null, $description = null, $level_id=null) {
         $clone = self::create([
             'hidden' => true,
             'name' => $name??$this->name . date('YmHis'),
-            'description' =>  $description??$this->description,             
+            'description' =>  $description??$this->description,       
+            'level_id' => $level_id??$this->level_id
         ]);
         
         foreach($this->summaries()->get() as $s) {

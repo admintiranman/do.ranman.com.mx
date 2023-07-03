@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EvControl extends Model
 {
@@ -42,6 +45,55 @@ class EvControl extends Model
 
     public function pdi() {
         return $this->hasMany(PlanDesarrolloIndividual::class);
+    }
+
+
+    public function refresh_evaluations() { 
+
+        DB::beginTransaction();
+        try {
+
+            $this->evaluations()->where('status', 'open')->delete();            
+            $users  = User::where('report_id', '<>', 0)
+                        ->whereNotNull('report_to')
+                        ->whereNotIn('id', $this->evaluations()->pluck('user_id')->all())
+                        ->get();
+
+            foreach($users as $user) { 
+
+                $survey = Survey::with('summaries.options', 'summaries.subsummaries.questions')
+                        ->where("level_id", $user->level->id)
+                        ->where("enabled", true)         
+                        ->orderBy('id', 'desc')               
+                        ->first();
+                $survey_json = json_encode($survey->summaries);
+                $current_section = $survey->summaries[0]->text;
+                                
+                Evaluation::create([
+                    'user_id' => $user->id,
+                    'ev_control_id' => $this->id,                        
+                    'name_survey' => $survey->name,
+                    'description_survey' => "",
+                    'survey' => $survey_json,
+                    'current_section' => $current_section,
+                ]);
+
+                Log::info('evaluacion creada user => ' . $user->name);
+            }
+
+
+            DB::commit();
+        }
+        catch(Exception $ex) { 
+
+            Log::error($ex);
+            DB::rollBack();
+        }
+
+
+
+
+
     }
 
 
