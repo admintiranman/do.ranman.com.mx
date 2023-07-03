@@ -14,6 +14,10 @@ class Survey extends Model
     protected $fillable = ['name', 'description', 'level_id', 'enabled'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
+    public function level() {
+        return $this->belongsTo(Level::class);
+    }
+
     public function summaries() {
         return $this->hasMany(Summary::class);
     }
