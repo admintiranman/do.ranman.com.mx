@@ -18,7 +18,7 @@ class Summary extends Model
     }
 
     public function subsummaries(){
-        return $this->hasMany(Subsummary::class);
+        return $this->hasMany(Subsummary::class)->orderBy('order', 'asc');
     }
 
 
