@@ -6,7 +6,7 @@
         <table class="table is-fullwidth table-evaluation">
             <thead>
                 <tr>
-                    <th colspan="3">{{ $evaluation->name_survey }}</th>
+                    <th colspan="3">Evaluación de desempeño y potencial</th>
                 </tr>
             </thead>
         </table>
