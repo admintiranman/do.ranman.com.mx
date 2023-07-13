@@ -66,10 +66,13 @@ class EvControl extends Model
                         ->where("enabled", true)         
                         ->orderBy('id', 'desc')               
                         ->first();
+                if(!isset($survey)) {
+                    continue;
+                }
                 $survey_json = json_encode($survey->summaries);
                 $current_section = $survey->summaries[0]->text;
                                 
-                Evaluation::create([
+                $ev =Evaluation::create([
                     'user_id' => $user->id,
                     'ev_control_id' => $this->id,                        
                     'name_survey' => $survey->name,
@@ -79,21 +82,21 @@ class EvControl extends Model
                 ]);
 
                 Log::info('evaluacion creada user => ' . $user->name);
+                Log::info('EV ID => ' . $ev->uuid);
+                Log::info('Encuesta => ' . $survey->name);
             }
 
 
             DB::commit();
         }
         catch(Exception $ex) { 
-
-            Log::error($ex);
+            Log::error(json_encode(["encuesta" => $survey , "user" => $user]));
+            Log::error($ex);            
             DB::rollBack();
-        }
+            return false;
+        }        
 
-
-
-
-
+        return true;
     }
 
 

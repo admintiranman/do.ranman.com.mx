@@ -21,20 +21,20 @@ use App\Http\Controllers\EvControlController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LDAPController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
-// Route::group([
+Route::group([
 
-//     'middleware'  => 'guest'
+    'middleware'  => 'guest'
 
-// ], function () {
-//     Route::get('/login', function() {
-//         return view('auth.login');
-//     });
-//     // Route::post('/login', [\Auth::class, 'login'])->name('login');
-// });
+], function () {
+    Route::get('/login', function() {
+        return view('auth.login');
+    });
+    Route::post('/login', [LDAPController::class, 'login'])->name('login');
+});
 
-Auth::routes();
+// Auth::routes();
 
 
 Route::group([
@@ -157,6 +157,7 @@ Route::group([
 
     Route::resource('jobs', JobController::class);
     Route::resource('evaluaciones', EvControlController::class);
+    Route::post('evaluaciones/refresh/{id}', [EvControlController::class, 'refresh_evaluation'])->name('control.refresh');
     // Route::resource('evaluations', EvaluationController::class);
     Route::post('/jobs/{job}/add/core/competence', [JobController::class, 'add_core_competence'])->name('job.add_core_competence');
     Route::post('/jobs/{job}/add/job/competence', [JobController::class, 'add_job_comptence'])->name('job.add_job_competence');

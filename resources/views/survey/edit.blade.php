@@ -29,7 +29,7 @@
                                         Agregar subtema
                                     </span>
                                 </a>
-                                <a href="" class="button is-small is-warning">
+                                <a href="{{route('survey.summary.edit', [$survey, $summary])}}" class="button is-small is-warning">
                                     <span class="icon">
                                         <i class="fas fa-edit"></i>
                                     </span>

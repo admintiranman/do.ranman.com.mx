@@ -99,6 +99,12 @@
                     </b-field>
                 </form>                
             </div>
+            <div class="column">
+                <form action="{{route('admin.control.refresh', [$evControl])}}" method="POST">
+                    @csrf
+                    <b-button type="is-warning" label="Refresh Encuestas" native-type="submit" />                                        
+                </form>
+            </div>
         </div>
         
 
