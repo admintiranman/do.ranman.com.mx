@@ -53,7 +53,7 @@ class EvControl extends Model
         DB::beginTransaction();
         try {
 
-            $this->evaluations()->where('y_potencial', '<>', 0)->delete();            
+            $this->evaluations()->where('y_potencial', 0)->delete();            
             $users  = User::where('report_id', '<>', 0)
                         ->whereNotNull('report_to')
                         ->whereNotIn('id', $this->evaluations()->pluck('user_id')->all())
