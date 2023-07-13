@@ -12,9 +12,21 @@ class BiController extends Controller
         $this->middleware('auth');
     }
 
-    public function nine_box(Request $request) {                
-        $link = config('app.link_bi');    
-        return view('bi.9box', compact('link'));
+    public function nine_box(Request $request) {                    
+        
+        if($request->user()->hasRole('9box')) {
+            $link = ($request->item??'current') == 'current' ? config('app.link_bi') : config('app.link_bi_old');    
+            $rep = $request->item??'current';
+            return view('bi.9box', compact('link', 'rep'));
+
+        }
+
+        abort(401);
+
+        
+        
+
+        
     }
     //
 }

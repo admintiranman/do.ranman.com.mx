@@ -20,6 +20,7 @@ return [
     */
 
     'link_bi' => env('BI_9BOX', ''),
+    'link_bi_old' => env('BI_9BOX_OLD', ''),
 
     'name' => env('APP_NAME', 'Laravel'),
 

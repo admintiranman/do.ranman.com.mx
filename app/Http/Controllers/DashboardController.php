@@ -107,7 +107,7 @@ class DashboardController extends Controller
         else {
             $control = EvControl::latest()->first();
         }
-        $pdi = $control->pdi()->where('avance', '<>', 0)->orderBy('nombre', 'asc')->get();        
+        $pdi = $control->pdi()->where('avance', '<>', 0)->orderBy('employee_name', 'asc')->get();        
         return view('admin.dashboard.pdi.index', compact('pdi', 'control'));
     }
 

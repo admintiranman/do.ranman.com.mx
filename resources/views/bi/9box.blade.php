@@ -14,7 +14,11 @@
     </style>
 @endsection
 @section('dashboard-main-content')
+
     <section class="section">        
+        <a href="{{ (route('bi.9box')) .  '?item=' . ($rep == 'current' ? 'old' : 'current') }}" >
+            Ver {{ $rep != 'current' ? '2022 en adelante' : '2021 y anteriores' }}
+        </a>
         <iframe class="iframe" src="{{$link}}" frameborder="0">
         </iframe> 
     </section>

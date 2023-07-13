@@ -7,7 +7,7 @@
         <p class="subtitle">Retroalimentaciones <b>( {{$control->name}} )</b></p>
         <hr>
 
-        <v-table :v_data="{{$retro}}" v_size_page="10" can_export="true" url_export="{{route('admin.export.retroalimentaciones')}}">
+        <v-table :v_data="{{$retro}}" v_size_page="10" can_export="true" url_export="{{route('admin.export.retroalimentaciones', ['control_id' => $control->id])}}">
             <b-table-column v-slot="props" searchable sortable label="Colaborador" field="employee_name">
                 @{{props.row.employee_name}}
                 <template #searchable="props">

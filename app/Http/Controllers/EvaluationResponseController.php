@@ -53,7 +53,7 @@ class EvaluationResponseController extends Controller
                             ->where('ev_control_id', $evaluation->ev_control_id)
                             ->first();
 
-                    $next_url = $retro ? route('retro.edit', $retro->id) : route('users.show', $evaluation->user->boss->id);
+                    $next_url = $retro ? route('retro.edit', $retro->id) : route('user.show', $evaluation->user->boss->id);
                 }
             }            
             $evaluation->save();

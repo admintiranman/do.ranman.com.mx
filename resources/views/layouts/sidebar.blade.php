@@ -68,10 +68,14 @@
                 <li>
                     <a @if( str_contains($path,  "profile")) class="is-active" @endif  href="{{route('user.show', $user)}}">Expediente</a>
                 </li>
-                @if ($user->team->count() > 0 || $user->hasRole('Administrador'))
+                @role('9box')
                     <li>
                         <a href="{{route('bi.9box')}}">9 box</a>
                     </li>
+                @endrole
+
+                @if ($user->team->count() > 0 || $user->hasRole('Administrador'))
+                    
                     <li>
                         <a href="{{route('team.organigrama')}}">Organigrama</a>
                     </li>

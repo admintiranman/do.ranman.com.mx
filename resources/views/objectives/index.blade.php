@@ -1,5 +1,6 @@
 @php
     $user_session = \Auth::user();
+    $is_admin = $user_session->hasRole('Administrador') ?  'true' : 'false';
 @endphp
 
 <p class="subtitle is-5 is-spaced">
@@ -18,7 +19,7 @@
         <span v-else>
             Objetivos iniciales no subidos
         </span>
-        <a v-if="(  props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true ? "true" : "false" }}) && !!!props.row.start_lock" :href="`/objetivo/${props.row.id}/edit/inicio`">
+        <a v-if="( {{$is_admin}} ||  props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true ? "true" : "false" }}) && !!!props.row.start_lock" :href="`/objetivo/${props.row.id}/edit/inicio`">
             <span class="icon">
                 <i class="fa fa-edit"></i>
             </span>
@@ -31,11 +32,13 @@
         <span v-else>
             Objetivos finales no subidos
         </span>
-        <a v-if="( props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true ? "true" : "false"}} ) && !!!props.row.end_lock" :href="`/objetivo/${props.row.id}/edit/final`">
+        
+        <a v-if="( {{$is_admin}} ||  props.row.user_id == {{$user_session->id}} || {{ $user_session->hierarchy($user) == true ? "true" : "false"}} ) && !!!props.row.end_lock" :href="`/objetivo/${props.row.id}/edit/final`">
             <span class="icon">
                 <i class="fa fa-edit"></i>                
             </span>
         </a>
+        
     </b-table-column>
 </v-table>
 

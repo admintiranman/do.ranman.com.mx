@@ -30,9 +30,9 @@
         <tbody>
             @foreach ($data as $item)
                 <tr>
-                    <td>{{$item->nombre}}</td>
-                    <td>{{$item->puesto}}</td>
-                    <td>{{$item->jefe_inmediato}}</td>
+                    <td>{{$item->employee_name}}</td>
+                    <td>{{$item->job}}</td>
+                    <td>{{$item->boss}}</td>
                     <td>{{$item->udn}}</td>
                     <td>
                         <a href="{{config('app.url') . '/admin/dashboard/pdi/' . $item->id . '/show'}}" target="_blank">

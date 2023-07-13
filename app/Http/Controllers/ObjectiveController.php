@@ -91,7 +91,7 @@ class ObjectiveController extends Controller
 
 
 
-        if(!$objective->lock && ($user->id == $objective->user->boss->id || $user->id == $objective->user->id)) {
+        if(!$objective->lock && ($user->id == $objective->user->boss->id || $user->id == $objective->user->id || $user->hasRole('Administrador'))) {
             switch ($txt) {
 
                 case "inicio":

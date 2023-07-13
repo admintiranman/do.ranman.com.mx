@@ -4,7 +4,7 @@
 
 @section('dashboard-main-content')
     <section class="section">
-        <p class="title is-4">{{$survey->name}} ({{$survey->level->name}})</p>
+        <p class="title is-4">{{$survey->name}} ({{$survey->level->name??''}})</p>
         <p class="subtitle is-5">{{$summary->text}}</p>
         <hr>
         <form method="post" action="{{route('survey.summary.subsummary.store', [$survey, $summary])}}">

@@ -6,7 +6,7 @@
     <section class="section">
         <p class="subtitle">Objetivos subidos <b>( {{$control->name}} )</b></p>
         <hr>
-        <v-table :v_data="{{$objectives}}" v_size_page="10" can_export="true" url_export="{{route('admin.export.objetivos')}}">
+        <v-table :v_data="{{$objectives}}" v_size_page="10" can_export="true" url_export="{{route('admin.export.objetivos', ['control_id' => $control->id])}}">
             <b-table-column v-slot="props" searchable sortable label="Colaborador" field="employee_name">
                 @{{props.row.employee_name}}
                 <template #searchable="props">

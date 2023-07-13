@@ -77,6 +77,7 @@ class Evaluation extends Model
         $yPotencial = 0;
         $xTotal = 0;
         $yTotal = 0;
+        $xMetasTotal = 0;
         $is_potencial = false;
         $metas = 0;
         $object = json_decode($this->survey);
@@ -99,6 +100,7 @@ class Evaluation extends Model
                 else {
 
                     if($t->text == "METAS") { 
+                        $xMetasTotal = (max($aux) * count($s->questions)) + $xMetasTotal;
                         $metas = $acum; 
                     }
                     else { 
@@ -108,7 +110,7 @@ class Evaluation extends Model
                 }
             }
         }
-        $this->x_rendimiento  = round(($xDesempenio / $xTotal) * 50) + round(($metas / 8) * 50);
+        $this->x_rendimiento  = round(($xDesempenio / $xTotal) * 40) + round(($metas / $xMetasTotal ) * 60);
         $this->y_potencial = round(($yPotencial / $yTotal) * 100);        
         
         // DB::select(

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Helpers\Organization as HelpersOrganization;
 use App\Models\Job;
 use App\Models\User;
+use App\Models\EvControl;
 
 class AdminController extends Controller
 {
@@ -24,6 +25,12 @@ class AdminController extends Controller
 
     public function organigrama_chart(Request $request, $grupo)
     {
+        if(isset($request->control)) { 
+            $control = EvControl::find($request->control);
+        }
+        else {
+            $control = EvControl::latest()->first(); 
+        }        
         
 
         if ($request->user()->hasRole('Administrador')) {
@@ -43,7 +50,7 @@ class AdminController extends Controller
                 //     $user_id = User::where('name', 'like' , 'Vicente%Rangel%')->latest()->first()->id; // Rodolfo oropeza
                 //     break;
             }
-            $instance = new HelpersOrganization($user_id);
+            $instance = new HelpersOrganization($user_id, $control->id);
             $organigrama = $instance->chart_data();
 
             // dd($organigrama);
@@ -56,8 +63,22 @@ class AdminController extends Controller
     }
 
 
-    public function organigrama($grupo)
+    public function organigrama(Request $request, $grupo)
     {
-        return view('admin.organization.index', ['route' => route('admin.organigrama_chart', $grupo)]);
+        if(isset($request->control)) { 
+            $control = EvControl::find($request->control);
+        }
+        else {
+            $control = EvControl::latest()->first(); 
+        }
+
+        $options_control = $control ? EvControl::where("id", "<>", $control->id)->get() : [];
+
+        return view('admin.organization.index', [
+            'route' => (route('admin.organigrama_chart', $grupo)  . "?control=" . $control->id), 
+            // 'route' => route('organigrama.chart')  . "?control=" . $control->id, 
+            'control' => $control, 
+            'options_control' => $options_control
+        ]);
     }
 }
