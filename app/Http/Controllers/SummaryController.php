@@ -65,8 +65,10 @@ class SummaryController extends Controller
      * @param  \App\Models\Summary  $summary
      * @return \Illuminate\Http\Response
      */
-    public function edit(Summary $summary)
+    public function edit(Survey $survey, Summary $summary)
     {
+        return view('summary.edit', compact('survey', 'summary'));
+
         //
     }
 
@@ -77,9 +79,15 @@ class SummaryController extends Controller
      * @param  \App\Models\Summary  $summary
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Summary $summary)
+    public function update(Request $request, Survey $survey, Summary $summary)
     {
-        //
+        
+        $summary->update($request->only(['text']));
+        $summary->options()->delete();
+        for($i = 0; $i < count($request->option); $i++) { 
+            Option::create([ 'summary_id' => $summary->id, 'text' => $request->option[$i], 'color' => $request->color[$i], 'value' => $request->value[$i]]);
+        }        
+        return redirect()->route('survey.edit', [$survey])->with('success', 'Seccion Agregada Correctamente');        
     }
 
     /**

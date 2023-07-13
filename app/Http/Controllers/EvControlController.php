@@ -234,6 +234,14 @@ class EvControlController extends Controller
         return redirect()->route('admin.evaluaciones.show', $id)->with(['success' => 'Usuario agregado correctamente']);
     }
 
+    public function refresh_evaluation($id) {
+        $contol = EvControl::find($id);
+        if(!$contol->refresh_evaluations()) {
+            return redirect()->route('admin.evaluaciones.show', $id)->with(['error' => 'Ocurrio un error al actualizar las encuestas']);     
+        }
+        return redirect()->route('admin.evaluaciones.show', $id)->with(['success' => 'Encuestas actualizadas correctamente']);
+    }
+
 
 
     protected function addUserToControl($control_id, $user, $objetivos, $objetivos_year ,$evaluacion, $retro, $pdi ) {
