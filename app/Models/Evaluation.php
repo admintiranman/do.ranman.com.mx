@@ -72,14 +72,31 @@ class Evaluation extends Model
     }
 
 
-    public function resultados() {
-        $xDesempenio = 0;
-        $yPotencial = 0;
-        $xTotal = 0;
+    public function resultados() {        
+        $yPotencial = 0;        
         $yTotal = 0;
-        $xMetasTotal = 0;
+        
         $is_potencial = false;
+        
+        // METAS
         $metas = 0;
+        $xMetasTotal = 0;
+        
+        // Valores
+        $valores = 0;
+        $xValoresTotales = 0; 
+
+        // negocio
+        $negocio = 0; 
+        $xNegocioTotal = 0; 
+
+        // talento y equipo
+        $talento = 0;
+        $xTalentoTotal = 0;
+
+        
+        
+        
         $object = json_decode($this->survey);
         foreach($object as $t) {
             
@@ -98,19 +115,37 @@ class Evaluation extends Model
                     $yTotal = $yTotal + (max($aux) * count($s->questions));
                 }
                 else {
+                    switch(strtoupper(trim($t->text))) {
+                        case "METAS":
+                            $xMetasTotal = (max($aux) * count($s->questions)) + $xMetasTotal;
+                            $metas = $acum; 
+                        break;
+                        case "VALORES":
+                            $xValoresTotales = (max($aux) * count($s->questions)) + $xValoresTotales;
+                            $valores = $acum; 
+                        break;
 
-                    if($t->text == "METAS") { 
-                        $xMetasTotal = (max($aux) * count($s->questions)) + $xMetasTotal;
-                        $metas = $acum; 
-                    }
-                    else { 
-                        $xDesempenio += $acum;
-                        $xTotal = $xTotal + (max($aux) * count($s->questions));
+                        case "NEGOCIO":
+                            $xNegocioTotal = (max($aux) * count($s->questions)) + $xNegocioTotal;
+                            $negocio = $acum; 
+                        break;
+
+                        case "TALENTO Y EQUIPOS":
+                            $xTalentoTotal = (max($aux) * count($s->questions)) + $xTalentoTotal;
+                            $talento = $acum; 
+                        break;
                     }
                 }
             }
         }
-        $this->x_rendimiento  = round(($xDesempenio / $xTotal) * 40) + round(($metas / $xMetasTotal ) * 60);
+        $this->x_rendimiento  = 
+            round(
+                (($metas / $xMetasTotal ) * 60) +
+                (($valores / $xValoresTotales ) * 10) +
+                (($negocio / $xNegocioTotal ) * 15) +
+                (($talento / $xTalentoTotal ) * 15)            
+            )
+            ;
         $this->y_potencial = round(($yPotencial / $yTotal) * 100);        
         
         // DB::select(
