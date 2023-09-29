@@ -31,7 +31,7 @@ class RolSeeder extends Seeder
 
     protected function attach_roles() {
         // example only test
-        $user = User::where('email', 'angelzarate@valoran.com.mx')->first();
+        $user = User::where('email', 'EduardoLoredo@ranman.mx')->first();
         if($user) {
             $user->assignRole('Administrador');
             $user->assignRole('9box');

@@ -6,7 +6,7 @@
 
 <div class="dashboard-panel is-small sidebar-background">
     <header class="dashboard-panel-header">
-        <img src="/img/valoran.png" alt="logo valoran">
+        <img src="/img/ranman.png" alt="logo valoran">
     </header>
 
     <div class="dashboard-panel-content">

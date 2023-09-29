@@ -58,11 +58,9 @@ const opt_predeterminadas = [
     }
 ];
 export default {
-    props: ['opts'], 
     methods: {
         addElement() {
-            
-            let id = this.options.length ? this.options.reduce((a,b) => a - b) : 1;
+            let id = this.options.reduce((a,b) => a - b);
             let value = 0;
             let color = "#FFFFFF";
             this.options.push({ id, value, color, txt:''});
@@ -72,12 +70,8 @@ export default {
         }
     },  
     data() {
-
-        
-        const a = (this.opts) ? this.opts.map((m, id) => ({...m, id: id, txt: m.text })) : undefined;
-        console.log(a);
         return {
-            options: a || opt_predeterminadas.slice(), 
+            options: opt_predeterminadas.slice(), 
         }
     }
 }

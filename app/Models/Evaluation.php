@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -24,10 +25,10 @@ class Evaluation extends Model
         'udn',
         'status',
         'comments',
-        'x_rendimiento',        
-        'y_potencial',        
+        'x_rendimiento',
+        'y_potencial',
         'survey',
-        'current_section', 
+        'current_section',
         'lock'
     ];
 
@@ -41,7 +42,7 @@ class Evaluation extends Model
             $model->uuid = Str::uuid();
 
             $user = User::find($model->user_id);
-            if($user) {                
+            if($user) {
                 $model->employee_name = $user->name;
                 $model->job = $user->job->name;
                 $model->boss = $user->boss->name??'';
@@ -61,7 +62,7 @@ class Evaluation extends Model
     }
 
     protected $casts = [
-        'survey' => 'json', 
+        'survey' => 'json',
         'lock' => 'boolean',
     ];
 
@@ -72,99 +73,96 @@ class Evaluation extends Model
     }
 
 
-    public function resultados() {        
-        $yPotencial = 0;        
-        $yTotal = 0;
-        
-        $is_potencial = false;
-        
-        // METAS
-        $metas = 0;
-        $xMetasTotal = 0;
-        
-        // Valores
-        $valores = 0;
-        $xValoresTotales = 0; 
-
-        // negocio
-        $negocio = 0; 
-        $xNegocioTotal = 0; 
-
-        // talento y equipo
-        $talento = 0;
-        $xTalentoTotal = 0;
-
-        
-        
-        
-        $object = json_decode($this->survey);
-        foreach($object as $t) {
-            
-            $is_potencial = $t->text == "POTENCIAL";            
-            $aux = [];
-            foreach($t->options as $opt) {
-                $aux[] = $opt->value;
-            }
-            foreach($t->subsummaries as $s) {
-                $acum = 0; 
-                foreach($s->questions as $q) {
-                    $acum += $q->value??0;
+    public function update_survey() {
+        $evaluation = json_decode($this->survey);
+        foreach ($evaluation as $item) {
+            foreach ($item->subsummaries as $subsummary) {
+                $i = 0;
+                foreach ($subsummary->questions as $q) {
+                    $question = Question::find($q->id);
+                    if($question) {
+                        $q->text = $question->text;
+                        $i = $i+1;
+                    }
+                    else {
+                        Log::debug("Deleted => " . $i);
+                        Log::debug("Q => ". $q->text);
+                        unset($subsummary->questions[$i]);
+                    }
                 }
-                if($is_potencial) { 
-                    $yPotencial += $acum;
-                    $yTotal = $yTotal + (max($aux) * count($s->questions));
+                $subsummary->questions = array_values((array)$subsummary->questions);
+            }
+        }
+        $this->survey = json_encode($evaluation);
+        $this->save();
+    }
+
+
+    public function resultados() {
+
+        $yPotencial = 0;
+        $xRendimiento = 0;
+        $object = json_decode($this->survey);
+        $is_potencial = false;
+        $percent = 0;
+        foreach ($object as $summary) {
+            switch (strtoupper($summary->text)) {
+                case "RESPONSABILIDADES":
+                    $percent = 60;
+                    $is_potencial = false;
+                break;
+                case "VALORES":
+                    $percent = 10;
+                    $is_potencial = false;
+                    break;
+                case "NEGOCIO":
+                    $percent = 15;
+                    $is_potencial = false;
+                    break;
+                case "TALENTO Y EQUIPOS":
+                    $percent = 15;
+                    $is_potencial = false;
+                    break;
+                case "PUESTO CRITICO":
+                    $percent = 0;
+                    $is_potencial = false;
+                    break;
+                case "TALENTO CLAVE":
+                    $percent = 0;
+                    $is_potencial = false;
+                break;
+                case "POTENCIAL":
+                    $percent = 100;
+                    $is_potencial = true;
+                    break;
+                
+            }
+
+            $count_sections = count($summary->subsummaries);
+
+            foreach ($summary->subsummaries as $subsummary) {
+
+
+                $max_calification = count($summary->options) * count($subsummary->questions);
+                $acum = 0;
+                foreach ($subsummary->questions as $question) {
+                    $acum += ($question->value??0);
+                }
+                Log::info("Calificación: ");
+                Log::info("Acun: " . $acum);
+                Log::info("Max_Calif: " .$max_calification);
+
+                $value = ($acum / $max_calification) * ($percent / $count_sections);
+
+                if($is_potencial) {
+                    $yPotencial += $value;
                 }
                 else {
-                    switch(strtoupper(trim($t->text))) {
-                        case "METAS":
-                            $xMetasTotal = (max($aux) * count($s->questions)) + $xMetasTotal;
-                            $metas = $acum; 
-                        break;
-                        case "VALORES":
-                            $xValoresTotales = (max($aux) * count($s->questions)) + $xValoresTotales;
-                            $valores = $acum; 
-                        break;
-
-                        case "NEGOCIO":
-                            $xNegocioTotal = (max($aux) * count($s->questions)) + $xNegocioTotal;
-                            $negocio = $acum; 
-                        break;
-
-                        case "TALENTO Y EQUIPOS":
-                            $xTalentoTotal = (max($aux) * count($s->questions)) + $xTalentoTotal;
-                            $talento = $acum; 
-                        break;
-                    }
+                    $xRendimiento += $value;
                 }
             }
         }
-        $this->x_rendimiento  = 
-            round(
-                (($metas / $xMetasTotal ) * 60) +
-                (($valores / $xValoresTotales ) * 10) +
-                (($negocio / $xNegocioTotal ) * 15) +
-                (($talento / $xTalentoTotal ) * 15)            
-            )
-            ;
-        $this->y_potencial = round(($yPotencial / $yTotal) * 100);        
-        
-        // DB::select(
-        //     DB::raw("exec desarrolloOrganizacional.dbo.sp_add_evaluacion :anio, :nombre, :udn, :nivel, :puesto, :pc, :tc, :desempenio, :Potencial, :x, :y"), 
-        //     [
-        //         ":anio" => $this->control->name,
-        //         ":nombre" => $this-employee_name,
-        //         ":udn" => $this->udn,
-        //         ":nivel" => $this->level,             
-        //         // ":area" => null,
-        //         ":puesto" => $this->job, 
-        //         ":pc" => $this->user->puesto_critico, 
-        //         ":tc" => $this->user->talento_clave, 
-        //         ":desempenio" =>  ($this->x_rendimiento < 56) ? 1 : ($this->x_rendimiento < 76 ? 2 : 3), 
-        //         ":Potencial" => $this->y_potencial < 76 ? 1 : ($this->y_potencial < 96 ?  2   : 3) ,
-        //         ":x" => $this->x_rendimiento, 
-        //         ":y" => $this->y_potencial,     
-        //     ]
-        // );
+        $this->x_rendimiento = round( $xRendimiento );
+        $this->y_potencial = round( $yPotencial );
     }
-
 }

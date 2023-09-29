@@ -93,13 +93,7 @@
                 objetivos_year: (new Date).getFullYear(),
                 search: "", 
                 selected: [], 
-                options: [
-                    {id: -1, name: "Directores"}, 
-                    {id: -2, name: "Gerentes" },
-                    {id: -3, name: "Coordinadores"}, 
-                    {id: -4, name: "Especialistas"}, 
-                    {id: -5, name: "Soporte Administrativo"},                       
-                ].concat(this.users),
+                options: this.users.map(m=>({...m, id:m.id2})),
                 resources: [
                     {name: "objetivos", value: false, txt: "Objetivos"}, 
                     {name: "edp", value: false, txt: "Evaluación Desempeño y Potencial"},

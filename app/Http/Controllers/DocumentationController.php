@@ -21,10 +21,20 @@ class DocumentationController extends Controller
                 "path" => route("documentation.interpretacion")
             ], 
             (object) [
-                "filename" => "Formato para retroalimentar", 
-                "path" => route("documentation.retroalimentacion"),
+                "filename" => "Formato retroalimentación (Líder)", 
+                "path" => route("documentation.retroalimentacionl"),
                 
             ], 
+            (object) [
+                "filename" => "Formato retroalimentación (Colaborador)", 
+                "path" => route("documentation.retroalimentacionc"),
+                
+            ], 
+            (object) [
+                "filename" => "Tips retroalimentación Ranman", 
+                "path" => route("documentation.tips"),
+                
+            ],
             (object) [
                 "filename" => "Preguntas poderosas de coaching", 
                 "path" => route("documentation.coaching")
@@ -41,11 +51,20 @@ class DocumentationController extends Controller
     }
 
 
-    public function retroalimentacion() {
-        $filename = "Formato-para-retroalimentar.pdf";
+    public function retroalimentacionl() {
+        $filename = "Formato-retroalimentacion-lider.pdf";
         return Storage::download("documentation/$filename", $filename, ["Content-Disposition" => "inline;"]);
     }
 
+    public function retroalimentacionc() {
+        $filename = "Formato-retroalimentacion-colaborador.pdf";
+        return Storage::download("documentation/$filename", $filename, ["Content-Disposition" => "inline;"]);
+    }
+
+    public function tips() {
+        $filename = "Tips.pdf";
+        return Storage::download("documentation/$filename", $filename, ["Content-Disposition" => "inline;"]);
+    }
 
     public function pdi() 
     {
@@ -55,7 +74,7 @@ class DocumentationController extends Controller
 
     public function competencias() 
     {
-        $filename = "MANUAL_COMPETENCIAS GV.pdf";
+        $filename = "MANUAL_COMPETENCIAS.pdf";
         return Storage::download("documentation/$filename", $filename, ["Content-Disposition" => "inline;"]);
     }
 

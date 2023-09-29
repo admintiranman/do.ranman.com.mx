@@ -4,19 +4,16 @@ namespace App\Helpers;
 
 use App\Models\User;
 use App\Models\vOrganization;
-use Illuminate\Support\Facades\DB;
 
 class Organization
 {
     protected $data;
     protected $root;
-    protected $control_id;
 
-    public function __construct($user_id = 1, $control_id)
-    {        
+    public function __construct($user_id = 1)
+    {
         $this->data = [];
         $this->root = User::find($user_id);
-        $this->control_id = $control_id;
     }
 
     public function chart_data()
@@ -39,8 +36,7 @@ class Organization
 
     protected function get_info_user($id)
     {
-        return DB::select("select * from [fn_UserEvaluation](:control_id) where [user_id] = :user_id", [":control_id" => $this->control_id, ":user_id" => $id])[0];        
-        // return vOrganization::where('user_id', $id)->first();        
+        return vOrganization::where('user_id', $id)->first();        
     }
 
 

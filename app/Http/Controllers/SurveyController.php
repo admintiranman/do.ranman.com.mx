@@ -45,7 +45,7 @@ class SurveyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:surveys',
+            'name' => 'required|min:1|unique:surveys,name,NULL,id,deleted_at,NULL',
             'level_id' => 'required',
             'description' => 'nullable'
         ]);

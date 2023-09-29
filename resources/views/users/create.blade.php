@@ -78,6 +78,11 @@
 
                     </b-field>
                 </div>
+                <div class="column">
+                    <b-field label="Password">
+                        <b-input name="password" type="password"></b-input>
+                    </b-field>
+                </div>
             </div>
 
             <div class="columns">

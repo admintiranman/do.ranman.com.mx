@@ -39,7 +39,7 @@
 
             @csrf
             <p class="field ">
-                <img src="/img/valoran.png" alt="Grupo Valoran">
+                <img src="/img/ranman.png" alt="Grupo Valoran">
             </p>
             <header>
                 <p class="subtitle is-5 is-spaced">

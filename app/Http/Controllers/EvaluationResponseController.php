@@ -46,7 +46,7 @@ class EvaluationResponseController extends Controller
                 $evaluation->current_section = $request->next_section;
                 if($request->next_section == null) {
                     $evaluation->status = 'close';
-                    $evaluation->current_section = 'METAS';
+                    $evaluation->current_section = 'RESPONSABILIDADES';
                     $evaluation->resultados();      
 
                     $retro = Retroalimentacion::where('user_id', $evaluation->user_id)

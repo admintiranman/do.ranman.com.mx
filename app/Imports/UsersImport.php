@@ -68,6 +68,7 @@ class UsersImport implements ToCollection, WithHeadingRow
                         "level_id" => $level->id,
                         "udn_id" => $udn->id,
                         "report_to" => $report_to, 
+                        "password" => bcrypt($row["password"]),
                         "departamento_id" => $departamento->id??null,
                         "puesto_critico" => $row["puesto_critico"]??false, 
                         "talento_clave" => $row["talento_clave"]??false,

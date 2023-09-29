@@ -21,20 +21,20 @@ use App\Http\Controllers\EvControlController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LDAPController;
 use App\Http\Controllers\UserController;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
-Route::group([
+// Route::group([
 
-    'middleware'  => 'guest'
+//     'middleware'  => 'guest'
 
-], function () {
-    Route::get('/login', function() {
-        return view('auth.login');
-    });
-    Route::post('/login', [LDAPController::class, 'login'])->name('login');
-});
+// ], function () {
+//     Route::get('/login', function() {
+//         return view('auth.login');
+//     });
+//     // Route::post('/login', [\Auth::class, 'login'])->name('login');
+// });
 
-// Auth::routes();
+Auth::routes();
 
 
 Route::group([
@@ -48,6 +48,9 @@ Route::group([
     Route::get('/documentation/interpretacion', [DocumentationController::class, 'interpretacion'])->name('documentation.interpretacion');
 
     Route::get('/documentation/retroalimentacion', [DocumentationController::class, 'retroalimentacion'])->name('documentation.retroalimentacion');
+    Route::get('/documentation/retroalimentacionl', [DocumentationController::class, 'retroalimentacionl'])->name('documentation.retroalimentacionl');
+    Route::get('/documentation/retroalimentacionc', [DocumentationController::class, 'retroalimentacionc'])->name('documentation.retroalimentacionc');
+    Route::get('/documentation/tips', [DocumentationController::class, 'tips'])->name('documentation.tips');
     Route::get('/documentation/coaching', [DocumentationController::class, 'coaching'])->name('documentation.coaching');
 
     Route::get('/search', [SearchController::class, 'search'])->name('search');

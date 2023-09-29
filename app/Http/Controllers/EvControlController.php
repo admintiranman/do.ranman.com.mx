@@ -38,9 +38,12 @@ class EvControlController extends Controller
     {
 
         $options = User::where('name', '<>', 'vacante')
-            ->select('name', 'id')
+        
+            ->select('name', 'id as id2')
             ->orderBy('name', 'asc')
-            ->get();
+            ->get()->all();
+            $levels = Level::selectRaw('name as id2 ,name')->get()->all();
+            $options = array_merge($options, $levels);
         return view('evaluations.create', compact("options"));        
     }
 
@@ -58,53 +61,18 @@ class EvControlController extends Controller
             return redirect()->route('admin.evaluaciones.index')->with('error', 'No fue posible crear la evaluación.');
         }
         foreach($data["users"] as $u) {
-            switch($u) { 
-                // Directores
-                case -1:
-                    $array = Level::where("name", "Dirección")
-                                ->first()
-                                ->users
-                                ->pluck("id")
-                                ->all();
-                    break;
-                // Gerentes
-                case -2:
-                    $array = Level::where("name", "Gerencia")
-                                ->first()
-                                ->users
-                                ->pluck("id")
-                                ->all();
-                    break;
-                // Coordinadores
-                case -3:
-                    $array = Level::where("name", "Coordinación")
-                                ->first()
-                                ->users
-                                ->pluck("id")
-                                ->all();                    
-                    break;
-                // Especialistas
-                case -4:
-                    $array = Level::where("name", "Especialista")
-                                ->first()
-                                ->users
-                                ->pluck("id")
-                                ->all();
-                    break;
-                // Soporte Administrativo
-                case -5:
-                    $array = Level::where("name", "Soporte Administrativo")
-                                ->first()
-                                ->users
-                                ->pluck("id")
-                                ->all();
-                    break;
-                default:
-                    $array = [$u];
+            if(is_numeric($u)){
+                $array = [$u];
             }
-            $users = array_merge($users, $array);;
+            else{
+                $array = Level::where("name", $u)
+                                ->first()
+                                ->users
+                                ->pluck("id")
+                                ->all();
+            }
+            $users = array_merge($array, $users);
         }
-
         $users = array_unique($users);
 
         DB::beginTransaction();
@@ -126,7 +94,8 @@ class EvControlController extends Controller
             
             DB::commit();
         }
-        catch(Exception $ex) {            
+        
+        catch(Exception $ex) {  
             DB::rollBack();
             return redirect()->route("admin.evaluaciones.index")->with("error", "Ocurrio un error al generar las evaluaciones");
         }

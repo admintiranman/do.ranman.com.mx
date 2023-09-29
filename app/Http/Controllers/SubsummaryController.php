@@ -43,7 +43,7 @@ class SubsummaryController extends Controller
         ]);
         $subsummary = Subsummary::create(['text' => $request->text, 'summary_id' => $summary->id]);
         //
-        return redirect()->route('survey.edit', [$survey])->with('success', 'Subtema agragado correctamente');
+        return redirect()->route('survey.edit', [$survey])->with('success', 'Subtema agregado correctamente');
     }
 
     /**

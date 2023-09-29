@@ -21,7 +21,8 @@ class User extends Authenticatable
         'report_to',          
         'puesto_critico',
         'talento_clave', 
-        'departamento_id'
+        'departamento_id',
+        'password',
     ];
 
 

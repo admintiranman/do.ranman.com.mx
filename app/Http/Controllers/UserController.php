@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -86,6 +87,7 @@ class UserController extends Controller
             $user_data = [
                 "name" => $data["name"], 
                 "email" => $data["email"], 
+                "password" => Hash::make($data["password"]),
                 "num_nomina" => $data["num_nomina"], 
                 "job_id" => $job->id, 
                 "level_id" => $level->id, 
